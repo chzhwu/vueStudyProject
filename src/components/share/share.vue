@@ -1,7 +1,7 @@
 <template>
   <div class="mui-content">
       <div class="topNav">
-        <ul>
+        <ul :style="width">
           <li><a href="javascript:;" @click="getCatImages(-1)">全部</a></li>
           <li v-for="(item,index) in cate" :key="index">
             <a href="javascript:;" @click="getCatImages(item.id)">{{item.title}}</a>
@@ -23,7 +23,7 @@
 <script>
 export default {
   data(){
-    return {catid:-1,images:[],cate:[]}
+    return {catid:-1,images:[],cate:[],width:'width:880px'}
   },
   created(){
     this.getImgCategory()
@@ -36,6 +36,7 @@ export default {
         // console.log(res)
         if(res.status==200&&res.data.status==0){
           this.cate=res.data.message
+          this.width='width:'+(res.data.message.length*72+70)+'px'
         }
       })
     },
@@ -69,6 +70,9 @@ ul{
   .topNav>ul{
     width:880px;
     padding:20px 10px;
+  }
+  ::-webkit-scrollbar{
+    display:none;
   }
   .topNav>ul>li{
     display:inline-block;

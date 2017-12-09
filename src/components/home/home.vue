@@ -1,9 +1,8 @@
 <template>
 <div class="mui-content">
 
-    <mt-swipe :auto="4000">
-        <mt-swipe-item v-for="(item,index) in imgArr" :key="index"><a href="#"><img :src="item.img" alt=""></a></mt-swipe-item>
-    </mt-swipe>
+    <swipe :imgurl="imgurl"></swipe>
+    
     <ul class="mui-table-view mui-grid-view mui-grid-9">
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" v-for="(item,index) in arr" :key="index"><router-link :to="item.url">
             <span :class="item.className"></span>
@@ -13,18 +12,14 @@
 </div>
 </template>
 <script>
-    import Vue from 'vue';
-    import { Swipe, SwipeItem } from 'mint-ui';
-    import 'mint-ui/lib/style.css'
-    Vue.component(Swipe.name, Swipe);
-    Vue.component(SwipeItem.name, SwipeItem);
+import swipe from '../common/swipe.vue'
     export default {
         data:function(){
-            return {arr:[],imgArr:[]}
+            return {arr:[],imgurl:'/api/getlunbo'}
         },
         created(){
             this.getHomeNav()
-            this.getSwiper()
+            
         },
         methods:{
             getHomeNav(){
@@ -43,14 +38,10 @@
                 .catch(function(err){
                     console.error(err)
                 })
-            },
-            getSwiper(){
-                let url='/api/getlunbo'
-                this.$http.get(url).then((res)=>{
-                    console.log(res)
-                    this.imgArr=res.data.message
-                })
             }
+        },
+        components:{
+            swipe
         }
     }
 </script>
@@ -81,11 +72,5 @@
         height:50px;
         background-repeat:round;
     }
-    .mint-swipe{
-        height:200px;
-    }
-    .mint-swipe img{
-        width:100%;
-        height:100%;
-    }
+    
 </style>

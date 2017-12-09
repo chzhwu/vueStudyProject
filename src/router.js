@@ -20,7 +20,7 @@ export default {
             {path:'/news',component:newsList},
             {path:'/newsDetail/:id',component:newsDetail,props:true},
             {path:'/share',component:share},
-            {path:'/shareDetail/:id',component:shareDetail}
+            {path:'/shareDetail/:id',component:shareDetail,props:true}
         ]
     })
 }
