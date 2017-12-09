@@ -16,7 +16,7 @@ export default {
       getSwiper(){
         let url=this.imgurl
         this.$http.get(url).then((res)=>{
-            console.log(res)
+            // console.log(res)
             this.imgArr=res.data.message
         })
       }

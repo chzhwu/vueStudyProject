@@ -12,7 +12,7 @@
         <ul>
           <li v-for="(item,index) in images" :key="index">
             <router-link :to="'/shareDetail/'+item.id">
-              <img :src="item.img_url" alt="">
+              <img v-lazy="item.img_url" alt="">
               <p><span class="title">{{item.title}}</span>{{item.zhaiyao}}</p>
             </router-link>
           </li>
@@ -43,14 +43,14 @@ export default {
     getImages(){
       let url='/api/getimages/'+this.catid
       this.$http.get(url).then((res)=>{
-        console.log(res)
-        if(res.status==200&&res.data.status==0){
-          this.images=res.data.message
+        // console.log(res)
+        if(res.status == 200 && res.data.status == 0){
+          this.images = res.data.message
         }
       })
     },
     getCatImages(id){
-      this.catid=id
+      this.catid = id
       // console.log(this.catid)
       this.getImages()
     }
@@ -95,6 +95,11 @@ ul{
   }
   .pic-content .title{
     font-weight: bold;
+  }
+  image[lazy=loading] {
+  width: 40px;
+  height: 300px;
+  margin: auto;
   }
 </style>
 

@@ -25,14 +25,14 @@ import swipe from '../common/swipe.vue'
             getHomeNav(){
                 let url = '/api/getmenus'
                 this.$http.get(url).then((res)=>{
-                    console.log(res)
+                    // console.log(res)
                     if(res.status==200&&res.data.status==0){
                         this.arr=res.data.message
                         this.arr.forEach(element => {
                             element.className+=' mui-icon'
                         });
                     }else{
-                        alert('请求失败')
+                        this.$toast('请求失败')
                     }
                 })
                 .catch(function(err){

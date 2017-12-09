@@ -3,7 +3,7 @@
     <div class="mui-content main">
         <div class="articleTitle">
             <h4>{{info.title}}</h4>
-            <span>{{info.add_time|getDate}}</span><span class="click">{{info.click}}次浏览</span>
+            <span>{{info.add_time|date('YYYY-MM-DD HH-mm-ss')}}</span><span class="click">{{info.click}}次浏览</span>
         </div>
         <div class="articleContent" v-html="info.content">
             <!--{{$route}}-->
@@ -35,7 +35,7 @@
                 let url='/api/getnew/'+this.id
                 this.$http.get(url).then((res)=>{
 //                    console.log(res)
-                    if(res.data.status==0){
+                    if(res.status == 200 && res.data.status == 0){
                         this.info=res.data.message[0]
                     }else{
                         console.log('出错')

@@ -32,8 +32,12 @@
             getNewsList(){
                 let url='/api/getnewslist'
                 this.$http.get(url).then((res)=>{
-                    console.log(res)
-                    this.arr=res.data.message
+                    // console.log(res)
+                    if(res.status == 200 && res.data.status == 0){
+                        this.arr=res.data.message
+                    }else{
+                        this.$toast('数据获取失败')
+                    }
                 })
             }
         },
