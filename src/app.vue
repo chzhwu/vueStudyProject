@@ -2,7 +2,7 @@
 
     <div class="container">
     <header class="mui-bar mui-bar-nav">
-        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <a v-if="show" @click='goback' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
         <h1 class="mui-title">某宝</h1>
     </header>
     <nav class="mui-bar mui-bar-tab">
@@ -15,7 +15,7 @@
             <span class="mui-tab-label">会员</span>
         </router-link>
         <router-link class="mui-tab-item" to="/shopcar">
-            <span class="mui-icon mui-icon-contact"><span class="mui-badge">9</span></span>
+            <span class="mui-icon mui-icon-contact"><span class="mui-badge">{{ num }}</span></span>
             <span class="mui-tab-label">购物车</span>
         </router-link>
         <router-link class="mui-tab-item" to="/search">
@@ -31,11 +31,39 @@
 
 </template>
 <script>
-    module.exports={
+    import vueObj from './components/common/communication'
+    export default {
         data:function(){
             return {
-                msg:'hello vue'
+                msg:'hello vue',
+                show:false,
+                num:1
             };
+        },
+        created() {
+            this.judgeback()
+            vueObj.$on('buynum',function(num){
+                // console.log(num)
+                this.num = num
+            }.bind(this))
+        },
+        methods:{
+            goback(){
+                this.$router.back()
+            },
+            judgeback() {
+                let arr = ['/home', '/member', '/shopcar', '/search']
+                if(arr.indexOf(this.$route.path)==-1) {
+                    this.show = true
+                } else {
+                    this.show = false
+                }
+            }
+        },
+        watch:{
+            '$route':function(value){
+                this.judgeback()
+            }
         }
     }
 </script>

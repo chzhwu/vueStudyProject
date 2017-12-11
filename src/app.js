@@ -12,7 +12,7 @@ import router from './router'
 
 let vm = new Vue({
   el: '#app',
-  router: router.router,
+  router: router,
   render: function (createElement) {
     return createElement(app)
   },

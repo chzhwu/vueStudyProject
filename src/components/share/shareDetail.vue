@@ -6,9 +6,9 @@
           <span>{{info.click}}次浏览</span>
       </div>
     <ul class="smImg mui-row">
-        <li class="mui-col-sm-3 mui-col-xs-4" v-for="(item,index) in imgArr" :key="index">
+        <li class="mui-col-sm-3 mui-col-xs-4" v-for="(item,index) in images" :key="index">
             <a class="mui-navigate-right">
-                <img :src="item.src" alt="">
+                <img class="preview-img" @click="$preview.open(index,images)" :src="item.src" alt="">
             </a>
         </li>
     </ul>
@@ -18,11 +18,13 @@
 </template>
 <script>
 import comment from '../common/comment.vue'
-
+import Vue from 'vue'
+import vuePreview from 'vue-preview'
+Vue.use(vuePreview)
 export default {
     
   data(){
-      return {info:{},imgArr:[]}
+      return {info:{},images:[]}
   },
   created(){
       this.getShareDetail()
@@ -35,6 +37,8 @@ export default {
           this.$http.get(url).then((res)=>{
               if(res.status==200&&res.data.status==0){
                   this.info=res.data.message[0]                                               
+              } else {
+                  console.log('服务器错误')
               }
           })
       },
@@ -43,7 +47,13 @@ export default {
           this.$http.get(url).then((res)=>{
             //   console.log(res)
             if(res.status==200&&res.data.status==0){
-                  this.imgArr=res.data.message
+                  this.images=res.data.message
+                  this.images.forEach(item => {
+                      item.w=600
+                      item.h=400
+                  })
+              } else {
+                  console.log('服务器错误')
               }
           })
       }
