@@ -15,7 +15,7 @@
             <span class="mui-tab-label">会员</span>
         </router-link>
         <router-link class="mui-tab-item" to="/shopcar">
-            <span class="mui-icon mui-icon-contact"><span class="mui-badge">{{ num }}</span></span>
+            <span class="mui-icon mui-icon-contact"><span class="mui-badge">{{ count }}</span></span>
             <span class="mui-tab-label">购物车</span>
         </router-link>
         <router-link class="mui-tab-item" to="/search">
@@ -32,20 +32,25 @@
 </template>
 <script>
     import vueObj from './components/common/communication'
+    import { getData } from './components/common/localstorageHple'
     export default {
         data:function(){
             return {
                 msg:'hello vue',
                 show:false,
-                num:1
+                count:0
             };
         },
         created() {
             this.judgeback()
             vueObj.$on('buynum',function(num){
                 // console.log(num)
-                this.num = num
+                this.count += num
             }.bind(this))
+            this.getTotal()
+            vueObj.$on('update',() => {
+                this.getTotal()
+            })
         },
         methods:{
             goback(){
@@ -58,6 +63,14 @@
                 } else {
                     this.show = false
                 }
+            },
+            getTotal(){
+                let num = 0
+                let data = getData()
+                data.forEach((item) => {
+                    num += item.count
+                })
+                this.count = num
             }
         },
         watch:{

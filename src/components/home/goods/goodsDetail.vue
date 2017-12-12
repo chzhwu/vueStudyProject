@@ -13,7 +13,12 @@
             </div>
             <div class="num">
                 购买数量：<number v-on:buynum="buynum" :stock="goods.stock_quantity"></number>
-                <!-- <div class="ball"></div> -->
+                <transition
+                    v-on:before-enter="beforeEnter"
+                    v-on:enter="enter"
+                    v-on:after-enter="afterEnter">
+                    <div v-if="show" class="ball"></div>
+                </transition>
             </div>
             <div class="button">
                 <button class="mui-btn mui-btn-primary">立刻购买</button>
@@ -31,7 +36,7 @@
         </div>
         
         <div class="footer">
-            <a class="mui-btn mui-btn-primary mui-btn-outlined">图文介绍</a>
+            <a class="mui-btn mui-btn-primary mui-btn-outlined" @click="introduce">图文介绍</a>
             <a class="mui-btn mui-btn-danger mui-btn-outlined" @click="comment">商品评论</a>
         </div>
     </div>
@@ -40,6 +45,7 @@
 import swipe from '../../common/swipe.vue'
 import number from './number.vue'
 import vueObj from '../../common/communication'
+import { setData } from '../../common/localstorageHple'
 export default {
   components:{
       swipe,
@@ -50,7 +56,8 @@ export default {
       return {
           imgurl:'/api/getthumimages/'+this.id,
           goods:{},
-          num:1
+          num:1,
+          show:false
       }
   },
   created(){
@@ -71,14 +78,37 @@ export default {
       comment(){
           this.$router.push({name:'goodsComment',params:this.id})
       },
+      introduce(){
+          this.$router.push({name:'introduce',params:this.id})
+      },
       buynum(num){
           this.num=num
       },
       updateCar(){
         //   console.log(this.num)
-          vueObj.$emit('buynum',this.num)
+        this.show = true
+        vueObj.$emit('buynum',this.num)
+        let goods = {'id':this.id,'count':this.num}
+        setData(goods)
+        console.log(setData)
+      },
+      beforeEnter(el){
+          el.style.transform='translate(0,0)'
+      },
+      enter(el, done){
+          let badge = document.querySelector('.mui-badge')
+          let ballX = el.getBoundingClientRect().left
+          let ballY = el.getBoundingClientRect().top
+          let badgeX = badge.getBoundingClientRect().left
+          let badgeY = badge.getBoundingClientRect().top
+          let x = badgeX - ballX
+          let y = badgeY - ballY
+          el.style.transform = `translate(${x}px,${y}px)`
+          done()
+      },
+      afterEnter(el){
+          this.show = false
       }
-
   }
 }
 </script>

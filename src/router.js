@@ -11,6 +11,7 @@ import shareDetail from './components/share/shareDetail.vue'
 import buy from './components/home/goods/goodsList.vue'
 import buyDetail from './components/home/goods/goodsDetail.vue'
 import goodsComment from './components/home/goods/goodsComment.vue'
+import introduce from './components/home/goods/introduce.vue'
 
 let router = new VueRouter({
   linkActiveClass: 'mui-active',
@@ -26,7 +27,8 @@ let router = new VueRouter({
     {path: '/shareDetail/:id',meta: {title: '图片分享'},component: shareDetail,props: true},
     {path: '/buy',component: buy},
     {path: '/buy/:id',component:buyDetail,props: true},
-    {name:'goodsComment',path:'/goodsComment/:id',component:goodsComment,props:true}
+    {name:'goodsComment',path:'/goodsComment/:id',component:goodsComment,props:true},
+    {name:'introduce',path:'/goodsdesc/:id',component:introduce,props:true}
   ]
 })
 

@@ -39,8 +39,8 @@ export default {
       getGoodsList(){
           let url='/api/getgoods?pageindex='+this.page
           this.$http.get(url).then((res) => {
-              console.log(res)
-              console.log(this.page)
+            //   console.log(res)
+            //   console.log(this.page)
               if(res.status == 200 && res.data.status == 0){
                   this.goods = this.goods.concat(res.data.message)
                   if(res.data.message.length==0){

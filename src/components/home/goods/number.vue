@@ -6,15 +6,16 @@
 <script>
 export default {
     data(){
-        return {num:1}
+        return {num:this.number||1,type:''}
     },
-    props:['stock'],
+    props:['stock','number','id'],
     methods:{
         add(){
             if(this.num>=this.stock){
                 return
             }
             this.num++
+            this.type = 'add'
             this.getnum()
         },
         sub(){
@@ -22,10 +23,12 @@ export default {
                 return
             }
             this.num--
+            this.type = 'sub'
             this.getnum()
         },
         getnum(){
             this.$emit('buynum',this.num)
+            this.$emit('getcount',{id:this.id,count:this.num,type:this.type})
         }
     }
 }
